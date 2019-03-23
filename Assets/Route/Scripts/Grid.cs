@@ -24,10 +24,10 @@ namespace Route {
             grid = new Node[width, height];
 
             for (int x = 0; x < width; x++) {
-                for (int z = 0; z < height; z++) {
-                    GameObject node = GameObject.Instantiate(nodePrefab, new Vector3(x * spacing, transform.position.y, z * spacing), Quaternion.identity) as GameObject;
+                for (int y = 0; y < height; y++) {
+                    GameObject node = GameObject.Instantiate(nodePrefab, new Vector3(x * spacing, y* spacing, transform.position.z), Quaternion.identity) as GameObject;
                     node.transform.SetParent(transform);
-                    grid[x, z] = node.GetComponent<Node>();
+                    grid[x, y] = node.GetComponent<Node>();
                 }
             }
 
