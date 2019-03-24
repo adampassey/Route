@@ -4,9 +4,9 @@ using System.Collections;
 namespace Route {
 
     /// <summary>
-    /// Static class for interacting with Nodes
+    /// Used to determine paths between Nodes
     /// </summary>
-    public static class Router {
+    public class Router {
 
         /// <summary>
         /// Given a starting and ending node, determine the 
@@ -15,7 +15,7 @@ namespace Route {
         /// <param name="start">The starting node</param>
         /// <param name="end">The ending node</param>
         /// <returns>A RouteResult</returns>
-        public static RouteResult Route(Node start, Node end) {
+        public RouteResult Route(Node start, Node end) {
             RouteResult result = new RouteResult();
 
             start.cheapestPathCost = 0;

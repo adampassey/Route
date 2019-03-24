@@ -11,9 +11,12 @@ public class RouteInvoker : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        RouteResult result = Router.Route(startNode.GetComponent<Node>(), endNode.GetComponent<Node>());
+        Router router = new Router();
+
+        RouteResult result = router.Route(startNode.GetComponent<Node>(), endNode.GetComponent<Node>());
+        Debug.Log("Path is the following nodes:");
         foreach (Node n in result.nodes) {
-            n.isInShortestPath = true;
+            Debug.Log(n.gameObject.name);
         }
 	}
 }
