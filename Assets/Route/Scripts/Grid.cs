@@ -33,20 +33,20 @@ namespace Route {
 
             //  now connect the graph
             for (int x = 0; x < width; x++) {
-                for (int z = 0; z < height; z++) {
-                    Node current = grid[x, z];
+                for (int y = 0; y < height; y++) {
+                    Node current = grid[x, y];
 
-                    neighbor(current, x, z - 1);
-                    neighbor(current, x, z + 1);
-                    neighbor(current, x - 1, z);
-                    neighbor(current, x + 1, z);
+                    neighbor(current, x, y - 1);
+                    neighbor(current, x, y + 1);
+                    neighbor(current, x - 1, y);
+                    neighbor(current, x + 1, y);
 
                     //  if we're supporting diagonals
                     if (diagonalMovement) {
-                        neighbor(current, x + 1, z + 1);
-                        neighbor(current, x - 1, z + 1);
-                        neighbor(current, x - 1, z - 1);
-                        neighbor(current, x + 1, z - 1);
+                        neighbor(current, x + 1, y + 1);
+                        neighbor(current, x - 1, y + 1);
+                        neighbor(current, x - 1, y - 1);
+                        neighbor(current, x + 1, y - 1);
                     }
                 }
             }
