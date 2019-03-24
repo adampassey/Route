@@ -14,19 +14,37 @@ namespace Route {
         public int height = 10;
         public float spacing = 2.0f;
         public bool diagonalMovement = true;
+        public bool isometric = false;
 
-        private Node[,] grid;
+        protected Node[,] grid;
 
         /// <summary>
         /// Build the graph based on the specified width/height
         /// </summary>
-        public void BuildGrid() {
+        public virtual void BuildGrid() {
             grid = new Node[width, height];
 
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
-                    GameObject node = GameObject.Instantiate(nodePrefab, new Vector3(x * spacing, y* spacing, transform.position.z), Quaternion.identity) as GameObject;
+
+                    Vector3 nodePos = new Vector3(
+                        x * spacing, 
+                        y * spacing, 
+                        transform.position.z
+                    );
+
+                    if (isometric) {
+                        nodePos = new Vector3(
+                            x - y,
+                            (x + y) / 2f,
+                            transform.position.z
+                        );
+                    }
+
+                    GameObject node = Instantiate(nodePrefab, nodePos, Quaternion.identity) as GameObject;
+                    node.gameObject.name = $"{x}, {y}";
                     node.transform.SetParent(transform);
+
                     grid[x, y] = node.GetComponent<Node>();
                 }
             }
@@ -70,7 +88,7 @@ namespace Route {
         /// <param name="current">The current node</param>
         /// <param name="x">The neighboring x position</param>
         /// <param name="z">The neighboring z position</param>
-        private void neighbor(Node current, int x, int z) {
+        protected void neighbor(Node current, int x, int z) {
             if (x >= 0 && x < width && z >= 0 && z < height) {
                 Node neighbor = grid[x, z];
                 current.neighbors.Add(neighbor);

@@ -7,7 +7,7 @@ namespace Route {
     /// Extend the editor, creating buttons for building
     /// and clearing the grid/graph
     /// </summary>
-    [CustomEditor(typeof(Grid))]
+    [CustomEditor(typeof(Grid), true)]
     public class GridEditor : Editor {
 
         public override void OnInspectorGUI() {
