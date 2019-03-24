@@ -26,7 +26,7 @@ namespace Route {
             } else {
                 Gizmos.color = Color.black;
             }
-            Gizmos.DrawCube(transform.position, new Vector3(1, 1, 1));
+            Gizmos.DrawSphere(transform.position, 0.5f);
 
             foreach (Node neighbor in neighbors) {
                 Gizmos.DrawLine(transform.position, neighbor.transform.position);
