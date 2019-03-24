@@ -19,13 +19,7 @@ namespace Route {
 
         //  draw a square for this gizmo
         void OnDrawGizmos() {
-            if (!visited) {
-                Gizmos.color = Color.white;
-            } else if (isInShortestPath) {
-                Gizmos.color = Color.green;
-            } else {
-                Gizmos.color = Color.black;
-            }
+            Gizmos.color = Color.white;
             Gizmos.DrawSphere(transform.position, 0.2f);
 
             foreach (Node neighbor in neighbors) {
