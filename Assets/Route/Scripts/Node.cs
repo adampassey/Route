@@ -11,12 +11,6 @@ namespace Route {
         public int cost = 1;
         public List<Node> neighbors = new List<Node>();
 
-        //  path properties
-        public int cheapestPathCost = int.MaxValue;
-        public List<Node> shortestPath = new List<Node>();
-        public bool visited = false;
-        public bool isInShortestPath = false;
-
         //  draw a square for this gizmo
         void OnDrawGizmos() {
             Gizmos.color = Color.white;

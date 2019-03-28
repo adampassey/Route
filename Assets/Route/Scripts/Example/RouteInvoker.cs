@@ -14,7 +14,6 @@ public class RouteInvoker : MonoBehaviour {
         Router router = new Router();
 
         RouteResult result = router.Route(startNode.GetComponent<Node>(), endNode.GetComponent<Node>());
-        Debug.Log("Path is the following nodes:");
         foreach (Node n in result.nodes) {
             Debug.Log(n.gameObject.name);
         }
