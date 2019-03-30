@@ -9,6 +9,9 @@ namespace Route {
     /// </summary>
     public class Router {
 
+        //  dictionary to store all paths for each node
+        Dictionary<int, Path> paths = new Dictionary<int, Path>();
+
         /// <summary>
         /// Path data for each node
         /// </summary>
@@ -31,9 +34,6 @@ namespace Route {
             //  create the result object
             RouteResult result = new RouteResult();
 
-            //  create the dictionary to store each node's properties
-            Dictionary<int, Path> paths = new Dictionary<int, Path>();
-
             //  create the path for the starting node
             Path startPath = new Path {
                 cheapestPathCost = 0
@@ -53,27 +53,19 @@ namespace Route {
                 Node current = nodes.Pop() as Node;
 
                 //  retrieve the path for this node if exists in the dictionary
-                paths.TryGetValue(current.GetInstanceID(), out Path currentPath);
-                if (!paths.ContainsKey(current.GetInstanceID())) {
-                    paths[current.GetInstanceID()] = currentPath;
-                }
+                pathForKey(current.GetInstanceID(), out Path currentPath);
 
                 //  mark this node as visited in the path
                 currentPath.visited = true;
 
+                //  list of nodes to sort and prioritize next
                 List<Node> nextNodes = new List<Node>();
 
                 //  for each one fo the nodes neighbors:
                 foreach (Node neighborNode in current.neighbors) {
 
-                    //  calculate the cost- the current cost to get here + the new nodes cost
-                    paths.TryGetValue(neighborNode.GetInstanceID(), out Path neighborPath);
-                    
-                    //  if neighborpath is null, create it and add it
-                    if (neighborPath == null) {
-                        neighborPath = new Path();
-                        paths.Add(neighborNode.GetInstanceID(), neighborPath);
-                    }
+                    //  create a new path for this neighbor
+                    pathForKey(neighborNode.GetInstanceID(), out Path neighborPath);
 
                     //  determine the cost to get to this node
                     int cost = currentPath.cheapestPathCost + neighborNode.cost;
@@ -118,6 +110,20 @@ namespace Route {
 
             //  if no return, return empty result...
             return result;
+        }
+
+        /// <summary>
+        /// Create a Path object for a given key. Places path in the `places` dictionary
+        /// to be queried.
+        /// </summary>
+        /// <param name="key">Unique identifer of the node, expected gameObject.GetInstanceID()</param>
+        /// <param name="path">Out Path object</param>
+        private void pathForKey(int key, out Path path) {
+            paths.TryGetValue(key, out path);
+            if (path == null) {
+                path = new Path();
+                paths.Add(key, path);
+            }
         }
 
         /// <summary>
