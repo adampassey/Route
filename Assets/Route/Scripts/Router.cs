@@ -10,7 +10,7 @@ namespace Route {
     public class Router {
 
         //  dictionary to store all paths for each node
-        Dictionary<int, Path> paths = new Dictionary<int, Path>();
+        private Dictionary<int, Path> paths = new Dictionary<int, Path>();
 
         /// <summary>
         /// Path data for each node
@@ -20,6 +20,13 @@ namespace Route {
             public List<Node> nodes = new List<Node>();
             public bool visited = false;
             public bool isInShortestPath = false;
+        }
+
+        /// <summary>
+        /// Clear existing paths for this grid
+        /// </summary>
+        public void ClearPaths() {
+            paths = new Dictionary<int, Path>();
         }
 
         /// <summary>
