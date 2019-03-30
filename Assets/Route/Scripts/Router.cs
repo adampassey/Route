@@ -9,6 +9,9 @@ namespace Route {
     /// </summary>
     public class Router {
 
+        /// <summary>
+        /// Path data for each node
+        /// </summary>
         private class Path {
             public int cheapestPathCost = int.MaxValue;
             public List<Node> nodes = new List<Node>();
@@ -40,14 +43,14 @@ namespace Route {
             //  add that path to the dict
             paths.Add(start.GetInstanceID(), startPath);
 
-            //  create a queue of nodes and queue the starting node
-            Queue nodes = new Queue();
-            nodes.Enqueue(start);
+            //  create a stack of nodes and queue the starting node
+            Stack nodes = new Stack();
+            nodes.Push(start);
 
             //  while we have nodes...
             while (nodes.Count > 0) {
 
-                Node current = nodes.Dequeue() as Node;
+                Node current = nodes.Pop() as Node;
 
                 //  retrieve the path for this node if exists in the dictionary
                 paths.TryGetValue(current.GetInstanceID(), out Path currentPath);
@@ -57,6 +60,8 @@ namespace Route {
 
                 //  mark this node as visited in the path
                 currentPath.visited = true;
+
+                List<Node> nextNodes = new List<Node>();
 
                 //  for each one fo the nodes neighbors:
                 foreach (Node neighborNode in current.neighbors) {
@@ -88,10 +93,19 @@ namespace Route {
                         neighborPath.nodes.Add(neighborNode);
                     }
 
-                    //  mark as visited if not already
+                    //  if this node isn't visited, add it to 
+                    //  nextNodes to be sorted and processed
                     if (!neighborPath.visited) {
-                        nodes.Enqueue(neighborNode);
+                        nextNodes.Add(neighborNode);
                     }
+                }
+
+                //  sort all neighbor nodes that haven't been processed
+                //  by their distance to the end node and add them to 
+                //  the stack
+                nextNodes = sortNodesByDistanceToNode(nextNodes, end);
+                foreach (Node nextNode in nextNodes) {
+                    nodes.Push(nextNode);
                 }
 
                 //  if this is the end node, set the result and return
@@ -104,6 +118,27 @@ namespace Route {
 
             //  if no return, return empty result...
             return result;
+        }
+
+        /// <summary>
+        /// Heuristic sort to choose highest priority node in neighbor by
+        /// prioritizing the neighboring node that is closest to the end node
+        /// </summary>
+        /// <param name="nodes">List of nodes to sort</param>
+        /// <param name="endNode">The end node</param>
+        /// <returns></returns>
+        private List<Node> sortNodesByDistanceToNode(List<Node> nodes, Node endNode) {
+
+            nodes.Sort(delegate (Node a, Node b) {
+                float aDistance = Vector3.Distance(a.transform.position, endNode.transform.position);
+                float bDistance = Vector3.Distance(b.transform.position, endNode.transform.position);
+
+                if (aDistance.Equals(bDistance)) {
+                    return 0;
+                } else return aDistance.CompareTo(bDistance);
+            });
+
+            return nodes;
         }
     }
 }
