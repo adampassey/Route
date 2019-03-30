@@ -14,7 +14,8 @@ Once you've created your node grid, your can find the shortest path between two 
 using Route;
 
 void ExampleMethod() {
-  RouteResult result = Router.Route(startNode, endNode);
+  Router router = new  Router();
+  RouteResult result = router.Route(startNode, endNode);
 
   //  shows the total cost of this route
   Debug.Log(result.cost);
