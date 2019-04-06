@@ -2,6 +2,10 @@
 
 namespace Route {
 
+    public interface IGridListener {
+        void OnGridBuilt(Node[,] grid);
+    }
+
     /// <summary>
     /// Exposes creation and manipulation of nodes in a graph.
     /// </summary>
@@ -15,6 +19,7 @@ namespace Route {
         public float spacing = 2.0f;
         public bool diagonalMovement = true;
         public bool isometric = false;
+        public GameObject gridListener;
 
         protected Node[,] grid;
 
@@ -67,6 +72,10 @@ namespace Route {
                         neighbor(current, x + 1, y - 1);
                     }
                 }
+            }
+
+            if (gridListener != null) {
+                gridListener.SendMessage("OnGridBuilt", grid, SendMessageOptions.DontRequireReceiver);
             }
         }
 
