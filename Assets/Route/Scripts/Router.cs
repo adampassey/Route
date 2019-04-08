@@ -102,7 +102,7 @@ namespace Route {
                 //  sort all neighbor nodes that haven't been processed
                 //  by their distance to the end node and add them to 
                 //  the stack
-                nextNodes = sortNodesByDistanceToNode(nextNodes, end);
+                nextNodes = prioritizeNodes(nextNodes, start, end);
                 foreach (Node nextNode in nextNodes) {
                     nodes.Push(nextNode);
                 }
@@ -135,20 +135,26 @@ namespace Route {
 
         /// <summary>
         /// Heuristic sort to choose highest priority node in neighbor by
-        /// prioritizing the neighboring node that is closest to the end node
+        /// prioritizing the neighboring node that is the closest direction
+        /// of the start/end node using dot product
         /// </summary>
         /// <param name="nodes">List of nodes to sort</param>
         /// <param name="endNode">The end node</param>
         /// <returns></returns>
-        private List<Node> sortNodesByDistanceToNode(List<Node> nodes, Node endNode) {
-
+        protected virtual List<Node> prioritizeNodes(List<Node> nodes, Node startNode, Node endNode) {
             nodes.Sort(delegate (Node a, Node b) {
-                float aDistance = Vector3.Distance(a.transform.position, endNode.transform.position);
-                float bDistance = Vector3.Distance(b.transform.position, endNode.transform.position);
+                Vector3 generalDir = Vector3.Normalize(endNode.transform.position - startNode.transform.position);
+                Vector3 aDir = Vector3.Normalize(a.transform.position - startNode.transform.position);
+                Vector3 bDir = Vector3.Normalize(b.transform.position - startNode.transform.position);
 
-                if (aDistance.Equals(bDistance)) {
+                float aDot = Vector3.Dot(generalDir, aDir);
+                float bDot = Vector3.Dot(generalDir, bDir);
+
+                if (aDot.Equals(bDot)) {
                     return 0;
-                } else return aDistance.CompareTo(bDistance);
+                } else {
+                    return aDot.CompareTo(bDot);
+                }
             });
 
             return nodes;
