@@ -66,10 +66,10 @@ namespace Route {
 
                     //  if we're supporting diagonals
                     if (diagonalMovement) {
-                        neighbor(current, x + 1, y + 1);
-                        neighbor(current, x - 1, y + 1);
-                        neighbor(current, x - 1, y - 1);
-                        neighbor(current, x + 1, y - 1);
+                        neighbor(current, x + 1, y + 1, true);
+                        neighbor(current, x - 1, y + 1, true);
+                        neighbor(current, x - 1, y - 1, true);
+                        neighbor(current, x + 1, y - 1, true);
                     }
                 }
             }
@@ -97,10 +97,15 @@ namespace Route {
         /// <param name="current">The current node</param>
         /// <param name="x">The neighboring x position</param>
         /// <param name="z">The neighboring z position</param>
-        protected void neighbor(Node current, int x, int z) {
+        /// <param name="diagonal">Set if this is a diagonal node</param>
+        protected void neighbor(Node current, int x, int z, bool diagonal = false) {
             if (x >= 0 && x < width && z >= 0 && z < height) {
                 Node neighbor = grid[x, z];
-                current.neighbors.Add(neighbor);
+                if (!diagonal) {
+                    current.directNeighbors.Add(neighbor);
+                } else {
+                    current.diagonalNeighbors.Add(neighbor);
+                }
             }
         }
     }

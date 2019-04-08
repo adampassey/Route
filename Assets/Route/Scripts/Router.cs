@@ -36,7 +36,7 @@ namespace Route {
         /// <param name="start">The starting node</param>
         /// <param name="end">The ending node</param>
         /// <returns>A RouteResult</returns>
-        public RouteResult Route(Node start, Node end) {
+        public RouteResult Route(Node start, Node end, bool diagonal = true) {
 
             //  create the result object
             RouteResult result = new RouteResult();
@@ -68,8 +68,13 @@ namespace Route {
                 //  list of nodes to sort and prioritize next
                 List<Node> nextNodes = new List<Node>();
 
-                //  for each one fo the nodes neighbors:
-                foreach (Node neighborNode in current.neighbors) {
+                //  for each one fo the nodes neighbors, supporting
+                //  both diagonal and direct:
+                List<Node> neighbors = current.directNeighbors;
+                if (diagonal) {
+                    neighbors = current.neighbors;
+                }
+                foreach (Node neighborNode in neighbors) {
 
                     //  create a new path for this neighbor
                     pathForKey(neighborNode.GetInstanceID(), out Path neighborPath);
