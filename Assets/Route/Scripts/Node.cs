@@ -33,7 +33,8 @@ namespace Route {
 
         void OnDestroy() {
             foreach (Node n in neighbors) {
-                n.neighbors.Remove(this);
+                n.directNeighbors.Remove(this);
+                n.diagonalNeighbors.Remove(this);
             }
         }
     }
