@@ -47,9 +47,8 @@ namespace Route {
                         );
                     }
 
-                    //GameObject node = Instantiate(nodePrefab, nodePos, Quaternion.identity) as GameObject;
-                    GameObject node = PrefabUtility.InstantiatePrefab(nodePrefab, transform) as GameObject;
-                    node.transform.position = nodePos;
+                    GameObject node = Instantiate(nodePrefab, nodePos, Quaternion.identity) as GameObject;
+                    node.transform.SetParent(transform);
                     node.gameObject.name = $"{x}, {y}";
 
                     grid[x, y] = node.GetComponent<Node>();
