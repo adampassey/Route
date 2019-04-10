@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 
 namespace Route {
 
@@ -46,9 +47,10 @@ namespace Route {
                         );
                     }
 
-                    GameObject node = Instantiate(nodePrefab, nodePos, Quaternion.identity) as GameObject;
+                    //GameObject node = Instantiate(nodePrefab, nodePos, Quaternion.identity) as GameObject;
+                    GameObject node = PrefabUtility.InstantiatePrefab(nodePrefab, transform) as GameObject;
+                    node.transform.position = nodePos;
                     node.gameObject.name = $"{x}, {y}";
-                    node.transform.SetParent(transform);
 
                     grid[x, y] = node.GetComponent<Node>();
                 }
