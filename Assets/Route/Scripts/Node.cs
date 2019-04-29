@@ -13,7 +13,6 @@ namespace Route {
 
         public List<Node> neighbors {
             get {
-                
                 return directNeighbors.Concat(diagonalNeighbors).ToList<Node>();
             }
         }
@@ -27,12 +26,18 @@ namespace Route {
             Gizmos.DrawSphere(transform.position, 0.2f);
 
             foreach (Node neighbor in neighbors) {
+                if (neighbor == null) {
+                    directNeighbors.Remove(neighbor);
+                    diagonalNeighbors.Remove(neighbor);
+                    continue;
+                }
                 Gizmos.DrawLine(transform.position, neighbor.transform.position);
             }
         }
 
         void OnDestroy() {
             foreach (Node n in neighbors) {
+                Debug.Log($"Notifying {n.gameObject.name} of my removal");
                 n.directNeighbors.Remove(this);
                 n.diagonalNeighbors.Remove(this);
             }

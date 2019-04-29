@@ -15,6 +15,9 @@ namespace Route {
     public class Grid : MonoBehaviour {
 
         public GameObject nodePrefab;
+
+        [Tooltip("Whether to maintain prefab link when building the grid")]
+        public bool MaintainPrefabLink = false;
         public int width = 10;
         public int height = 10;
         public float spacing = 2.0f;
@@ -47,8 +50,15 @@ namespace Route {
                         );
                     }
 
-                    GameObject node = Instantiate(nodePrefab, nodePos, Quaternion.identity) as GameObject;
-                    node.transform.SetParent(transform);
+                    GameObject node;
+
+                    if (!MaintainPrefabLink) {
+                        node = Instantiate(nodePrefab, nodePos, Quaternion.identity) as GameObject;
+                        node.transform.SetParent(transform);
+                    } else {
+                        node = PrefabUtility.InstantiatePrefab(nodePrefab, transform) as GameObject;
+                        node.transform.position = nodePos;
+                    }
                     node.gameObject.name = $"{x}, {y}";
 
                     grid[x, y] = node.GetComponent<Node>();
