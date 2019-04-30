@@ -35,12 +35,12 @@ namespace Route {
             }
         }
 
-        void OnDestroy() {
+        public void CustomDestroy() {
             foreach (Node n in neighbors) {
-                Debug.Log($"Notifying {n.gameObject.name} of my removal");
                 n.directNeighbors.Remove(this);
                 n.diagonalNeighbors.Remove(this);
             }
+            DestroyImmediate(this);
         }
     }
 }
