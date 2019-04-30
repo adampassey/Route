@@ -76,6 +76,12 @@ namespace Route {
                 }
                 foreach (Node neighborNode in neighbors) {
 
+                    //  in the event that a neighbor node gets
+                    //  removed while pathing
+                    if (neighborNode == null) {
+                        continue;
+                    }
+
                     //  create a new path for this neighbor
                     pathForKey(neighborNode.GetInstanceID(), out Path neighborPath);
 
