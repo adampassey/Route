@@ -61,6 +61,9 @@ namespace Route {
         public void OnDestroy() {
             SendMessage(CUSTOM_DESTROY, this, SendMessageOptions.DontRequireReceiver);
             foreach (Node n in neighbors) {
+                if (n == null) {
+                    continue;
+                }
                 n.directNeighbors.Remove(this);
                 n.diagonalNeighbors.Remove(this);
             }
