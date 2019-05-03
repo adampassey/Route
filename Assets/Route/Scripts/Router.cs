@@ -77,8 +77,8 @@ namespace Route {
                 foreach (Node neighborNode in neighbors) {
 
                     //  in the event that a neighbor node gets
-                    //  removed while pathing
-                    if (neighborNode == null) {
+                    //  removed while pathing or a neighbor is occupied
+                    if (neighborNode == null || neighborNode.Occupied) {
                         continue;
                     }
 

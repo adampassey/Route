@@ -26,6 +26,13 @@ namespace Route {
         public List<Node> directNeighbors = new List<Node>();
         public List<Node> diagonalNeighbors = new List<Node>();
 
+        public GameObject Occupant;
+        public bool Occupied {
+            get {
+                return Occupant != null;
+            }
+        }
+
         //  draw a square for this gizmo
         void OnDrawGizmos() {
             Gizmos.color = Color.white;
