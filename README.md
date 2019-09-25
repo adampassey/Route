@@ -1,6 +1,8 @@
 # Route
 Simple weighted graph pathfinding package for [Unity3d](http://unity3d.com).
 
+![alt tag](https://github.com/adampassey/Route/raw/master/route-example.gif)
+
 ### Usage
 
 Download or clone the `Route` repository locally and import [route.unitypackage](https://github.com/adampassey/Route/blob/master/route.unitypackage)
@@ -27,4 +29,3 @@ void ExampleMethod() {
 }
 ```
 
-![alt tag](http://i.imgur.com/j1aNO2W.jpg)
